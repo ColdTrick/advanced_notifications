@@ -1,0 +1,72 @@
+<?php
+
+	if(isset($argv) && is_array($argv)){
+		$memory_limit = "64M";
+		$secret = "";
+		$event = "";
+		$type = "";
+		$guid = 0;
+		$id = 0;
+		
+		foreach($argv as $index => $arg){
+			// the first argument is this script
+			if($index > 0){
+				
+				list($key, $value) = explode("=", $arg);
+				
+				switch ($key){
+					case "host":
+						$_SERVER["HTTP_HOST"] = $value;
+						break;
+					case "https":
+						$_SERVER["HTTPS"] = $value;
+						break;
+					case "session_id":
+						session_id($value);
+						break;
+					case "guid":
+					case "id":
+						$value = (int) $value;
+						
+						if($value > 0){
+							$$key = (int) $value;
+						}
+						break;
+					default:
+						$$key = $value;
+						break;
+				}
+			}
+		}
+		
+		if(!empty($secret) && !empty($event) && !empty($type) && (!empty($guid) || !empty($id))){
+			// set the provided memory limit
+			ini_set("memory_limit", $memory_limit);
+			
+			// start Elgg
+			require_once(dirname(dirname(dirname(dirname(__FILE__)))) . "/engine/start.php");
+			
+			// validate the provided secret
+			if(advanced_notifications_validate_secret($secret)){
+				
+				switch($type) {
+					case "object":
+						advanced_notifications_object_notification($guid, $event);
+						break;
+					case "annotation":
+						advanced_notifications_annotation_notification($id, $event);
+						break;
+					default:
+						echo elgg_echo("advanced_notifications:cli:error:type", array($type));
+						break;
+				}
+			} else {
+				echo elgg_echo("advanced_notifications:cli:error:secret");
+			}
+		} else {
+			echo "Invalid input, the script can't continue";
+		}
+	} else {
+		echo "This script can only be run from the commandline";
+	}
+	
