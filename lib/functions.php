@@ -151,6 +151,9 @@
 					$default_message = $default_subject . ": " . $entity->getGUID();
 					
 					if(!empty($NOTIFICATION_HANDLERS) && is_array($NOTIFICATION_HANDLERS)){
+						// this could take a long time, especialy with large groups
+						set_time_limit(0);
+						
 						// prepare the options to get the interested users
 						$options = array(
 							"type" => "user",
@@ -254,6 +257,9 @@
 							$default_message = $default_subject . ": " . $entity->getURL();
 							
 							if(!empty($NOTIFICATION_HANDLERS) && is_array($NOTIFICATION_HANDLERS)){
+								// this could take a long time, especialy with large groups
+								set_time_limit(0);
+								
 								// prepare options to get the interested users
 								$options = array(
 									"type" => "user",
