@@ -84,7 +84,7 @@
 		
 		// prepare to call the commandline
 		$script_location = dirname(dirname(__FILE__)) . "/procedures/cli.php";
-		$query_string = http_build_query($settings, "", " ");
+		$query_string = http_build_query($options, "", " ");
 		
 		if(PHP_OS === "WINNT"){
 			pclose(popen("start /B php " . $script_location . " " . $query_string, "r"));
