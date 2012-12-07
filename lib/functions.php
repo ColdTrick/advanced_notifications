@@ -175,51 +175,62 @@
 							// get the interested users for the entity
 							$options["relationship"] = "notify" . $method;
 							
-							if($user_guids = elgg_get_entities_from_relationship($options)){
-								foreach($user_guids as $user_guid){
-									// fetch the user entity to process
-									if($user = get_user($user_guid)){
-										// check if the user has access to the entity
-										if(has_access_to_entity($entity, $user)){
-											// trigger a hook to make a custom message
-											$message = elgg_trigger_plugin_hook("notify:entity:message", $entity->getType(), array(
-												"entity" => $entity,
-												"to_entity" => $user,
-												"method" => $method), $default_message);
-											// check if the hook made a correct message
-											if(empty($message) && $message !== false){
-												// the hook did it incorrect, so reset the message
-												$message = $default_message;
-											}
-											
-											// this is new, trigger a hook to make a custom subject
-											$subject = elgg_trigger_plugin_hook("notify:entity:subject", $entity->getType(), array(
-												"entity" => $entity,
-												"to_entity" => $user,
-												"method" => $method), $default_subject);
-											// check if the hook made a correct subject
-											if(empty($subject)){
-												// the hook did it incorrect, so reset the subject
-												$subject = $default_subject;
-											}
-											
-											// if the hook returnd false, don't sent a notification
-											if($message !== false){
-												notify_user($user->getGUID(), $entity->getContainerGUID(), $subject, $message, null, $method);
+							// allow the interested user options to be ajusted
+							$params = array(
+								"entity" => $entity,
+								"options" => $options,
+								"method" => $method
+							);
+							
+							if($options = elgg_trigger_plugin_hook("interested_users:options", "notify:" . $method, $params, $options)){
+								// we got through the hook, so get the users
+								if($user_guids = elgg_get_entities_from_relationship($options)){
+									// process each user
+									foreach($user_guids as $user_guid){
+										// fetch the user entity to process
+										if($user = get_user($user_guid)){
+											// check if the user has access to the entity
+											if(has_access_to_entity($entity, $user)){
+												// trigger a hook to make a custom message
+												$message = elgg_trigger_plugin_hook("notify:entity:message", $entity->getType(), array(
+													"entity" => $entity,
+													"to_entity" => $user,
+													"method" => $method), $default_message);
+												// check if the hook made a correct message
+												if(empty($message) && $message !== false){
+													// the hook did it incorrect, so reset the message
+													$message = $default_message;
+												}
+												
+												// this is new, trigger a hook to make a custom subject
+												$subject = elgg_trigger_plugin_hook("notify:entity:subject", $entity->getType(), array(
+													"entity" => $entity,
+													"to_entity" => $user,
+													"method" => $method), $default_subject);
+												// check if the hook made a correct subject
+												if(empty($subject)){
+													// the hook did it incorrect, so reset the subject
+													$subject = $default_subject;
+												}
+												
+												// if the hook returnd false, don't sent a notification
+												if($message !== false){
+													notify_user($user->getGUID(), $entity->getContainerGUID(), $subject, $message, null, $method);
+												}
 											}
 										}
+										
+										// cleanup some of the caches
+										$DB_QUERY_CACHE->clear();
+										invalidate_cache_for_entity($user_guid);
+										
+										unset($user);
 									}
-									
-									// cleanup some of the caches
-									$DB_QUERY_CACHE->clear();
-									invalidate_cache_for_entity($user_guid);
-									
-									unset($user);
 								}
+								
+								// some small cleanup
+								unset($user_guids);
 							}
-							
-							// some small cleanup
-							unset($user_guids);
 						}
 					}
 				}
@@ -278,52 +289,64 @@
 								foreach($NOTIFICATION_HANDLERS as $method => $dummy){
 									// get the interested users for the entity
 									$options["relationship"] = "notify" . $method;
+									
+									// allow the interested user options to be ajusted
+									$params = array(
+										"annotation" => $annotation,
+										"entity" => $entity,
+										"options" => $options,
+										"method" => $method
+									);
 										
-									if($user_guids = elgg_get_entities_from_relationship($options)){
-										foreach($user_guids as $user_guid){
-											// fetch the user entity to process
-											if($user = get_user($user_guid)){
-												// check if the user has access to the entity
-												if(has_access_to_entity($entity, $user)){
-													// trigger a hook to make a custom message
-													$message = elgg_trigger_plugin_hook("notify:annotation:message", $annotation->getSubtype(), array(
-														"annotation" => $annotation,
-														"to_entity" => $user,
-														"method" => $method), $default_message);
-													// check if the hook made a correct message
-													if(empty($message) && $message !== false){
-														// the hook did it incorrect, so reset the message
-														$message = $default_message;
-													}
-														
-													// this is new, trigger a hook to make a custom subject
-													$subject = elgg_trigger_plugin_hook("notify:annotation:subject", $annotation->getSubtype(), array(
-														"annotation" => $annotation,
-														"to_entity" => $user,
-														"method" => $method), $default_subject);
-													// check if the hook made a correct subject
-													if(empty($subject)){
-														// the hook did it incorrect, so reset the subject
-														$subject = $default_subject;
-													}
-														
-													// if the hook returnd false, don't sent a notification
-													if($message !== false){
-														notify_user($user->getGUID(), $entity->getContainerGUID(), $subject, $message, null, $method);
+									if($options = elgg_trigger_plugin_hook("interested_users:options", "notify:" . $method, $params, $options)){
+										// we got through the hook, so get the users
+										if($user_guids = elgg_get_entities_from_relationship($options)){
+											// process each user
+											foreach($user_guids as $user_guid){
+												// fetch the user entity to process
+												if($user = get_user($user_guid)){
+													// check if the user has access to the entity
+													if(has_access_to_entity($entity, $user)){
+														// trigger a hook to make a custom message
+														$message = elgg_trigger_plugin_hook("notify:annotation:message", $annotation->getSubtype(), array(
+															"annotation" => $annotation,
+															"to_entity" => $user,
+															"method" => $method), $default_message);
+														// check if the hook made a correct message
+														if(empty($message) && $message !== false){
+															// the hook did it incorrect, so reset the message
+															$message = $default_message;
+														}
+															
+														// this is new, trigger a hook to make a custom subject
+														$subject = elgg_trigger_plugin_hook("notify:annotation:subject", $annotation->getSubtype(), array(
+															"annotation" => $annotation,
+															"to_entity" => $user,
+															"method" => $method), $default_subject);
+														// check if the hook made a correct subject
+														if(empty($subject)){
+															// the hook did it incorrect, so reset the subject
+															$subject = $default_subject;
+														}
+															
+														// if the hook returnd false, don't sent a notification
+														if($message !== false){
+															notify_user($user->getGUID(), $entity->getContainerGUID(), $subject, $message, null, $method);
+														}
 													}
 												}
+													
+												// cleanup some of the caches
+												$DB_QUERY_CACHE->clear();
+												invalidate_cache_for_entity($user_guid);
+													
+												unset($user);
 											}
-												
-											// cleanup some of the caches
-											$DB_QUERY_CACHE->clear();
-											invalidate_cache_for_entity($user_guid);
-												
-											unset($user);
 										}
+											
+										// some small cleanup
+										unset($user_guids);
 									}
-										
-									// some small cleanup
-									unset($user_guids);
 								}
 							}
 						}
