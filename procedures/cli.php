@@ -1,5 +1,5 @@
 <?php
-
+	
 	if(isset($argv) && is_array($argv)){
 		$memory_limit = "64M";
 		$secret = "";
@@ -7,10 +7,12 @@
 		$type = "";
 		$guid = 0;
 		$id = 0;
+		$inputs = array();
 		
 		foreach($argv as $index => $arg){
 			// the first argument is this script
 			if($index > 0){
+				$arg = urldecode($arg);
 				
 				list($key, $value) = explode("=", $arg);
 				
@@ -32,6 +34,14 @@
 							$$key = (int) $value;
 						}
 						break;
+					case "input":
+						// value is name|base64_encode(value)
+						list($input_name, $input_value) = explode("|", $value);
+						$input_value = base64_decode($input_value);
+						
+						$inputs[$input_name] = $input_value;
+						
+						break;
 					default:
 						$$key = $value;
 						break;
@@ -48,10 +58,17 @@
 			
 			// validate the provided secret
 			if(advanced_notifications_validate_secret($secret)){
+				// set the configured inputs
+				if(!empty($inputs)){
+					foreach($inputs as $input_name => $input_value){
+						set_input($input_name, $input_value);
+					}
+				}
 				
+				// what do we need to do
 				switch($type) {
 					case "object":
-						advanced_notifications_object_notification($guid, $event);
+						advanced_notifications_entity_notification($guid, $event);
 						break;
 					case "annotation":
 						advanced_notifications_annotation_notification($id, $event);
