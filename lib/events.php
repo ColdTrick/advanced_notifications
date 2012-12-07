@@ -61,6 +61,17 @@
 							"id" => $annotation->id
 						);
 						
+						// in older versions of elgg do this differently
+						if(version_compare(get_version(true), "1.8.6", "<")){
+							$entity = $annotation->getEntity();
+							
+							unset($commandline_options["id"]);
+							$commandline_options["type"] = $entity->getType();
+							$commandline_options["guid"] = $entity->getGUID();
+							
+							$commandline_options["input"] = "group_topic_post|" . base64_encode($annotation->value);
+						}
+						
 						advanced_notifications_start_commandline($commandline_options);
 					}
 				}

@@ -12,5 +12,6 @@
 		
 		// group forum topic notifications
 		elgg_register_event_handler("create", "annotation", "advanced_notifications_create_annotation_event_handler");
-		elgg_unregister_event_handler("create", "annotation", "discussion_reply_notifications");
+		elgg_unregister_event_handler("create", "annotation", "discussion_reply_notifications"); // for Elgg versions >= 1.8.6
+		elgg_unregister_event_handler("annotate", "all", "group_object_notifications"); // older versions of Elgg < 1.8.6
 	}
