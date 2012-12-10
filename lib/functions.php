@@ -221,7 +221,9 @@
 										}
 										
 										// cleanup some of the caches
-										$DB_QUERY_CACHE->clear();
+										if($DB_QUERY_CACHE){
+											$DB_QUERY_CACHE->clear();
+										}
 										invalidate_cache_for_entity($user_guid);
 										
 										unset($user);
@@ -337,7 +339,9 @@
 												}
 													
 												// cleanup some of the caches
-												$DB_QUERY_CACHE->clear();
+												if($DB_QUERY_CACHE){
+													$DB_QUERY_CACHE->clear();
+												}
 												invalidate_cache_for_entity($user_guid);
 													
 												unset($user);
