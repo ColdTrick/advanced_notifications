@@ -38,6 +38,13 @@
 		return $result;
 	}
 	
+	/**
+	*
+	* Checks if the given $annotaions is registered for notifications
+	*
+	* @param ElggAnnotation $annotation
+	* @return boolean
+	*/
 	function advanced_notifications_is_registered_notification_annotation(ElggAnnotation $annotation){
 		$result = false;
 		
