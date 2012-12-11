@@ -18,6 +18,11 @@
 		<plugin>groups</plugin>
 		<priority>after</priority>
 	</requires>
+	<requires>
+		<type>priority</type>
+		<plugin>messages</plugin>
+		<priority>after</priority>
+	</requires>
 	
 	<suggests>
 		<type>plugin</type>

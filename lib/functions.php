@@ -132,7 +132,7 @@
 	}
 	
 	/**
-	 * Sent out the notifications for the provided entity(_guid)
+	 * Sent out the notifications for the provided entity_guid
 	 * 
 	 * @param int $guid
 	 * @param string $event
@@ -241,9 +241,8 @@
 	}
 	
 	/**
-	 * Wrapper function to fetch the object out of the annotation to pass on the to object notification
+	 *  Sent out the notifications for the provided annotation_id
 	 * 
-	 * @uses advanced_notifications_object_notification()
 	 * @param int $id
 	 * @param string $event
 	 */
@@ -360,6 +359,41 @@
 		}
 	}
 	
+	/**
+	 * Returns a Elgg datarow as GUID
+	 * 
+	 * @param stdClass $row
+	 * @return int $guid
+	 */
 	function advanced_notifications_row_to_guid($row){
 		return (int) $row->guid;
+	}
+	
+	/**
+	 * 
+	 * Unregister an entity type/subtype from notifications handling
+	 * 
+	 * @param string $type
+	 * @param string $subtype
+	 */
+	function advanced_notifications_unregister_notification_object($type = "", $subtype = ""){
+		global $CONFIG;
+		
+		if(empty($type)){
+			$type = "__BLANK__";
+		}
+		
+		if(empty($subtype)){
+			$subtype = "__BLANK__";
+		}
+		
+		// are there registered notification objects
+		if(isset($CONFIG->register_objects)){
+			if(isset($CONFIG->register_objects[$type])){
+				if(isset($CONFIG->register_objects[$type][$subtype])){
+					// remove the registered entity type/subtype
+					unset($CONFIG->register_objects[$type][$subtype]);
+				}
+			}
+		}
 	}
