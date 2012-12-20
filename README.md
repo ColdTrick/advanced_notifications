@@ -15,6 +15,7 @@ Contents
 
 - Offloading of notifications, so the acting user isn't affected by the amount of sent notifications
 - Small speed improvement of the Messages plugin
+- Optionally replace site notifications with a personalized river view
 - Some extra plugin hooks for developers (see next section)
 
 2. Added functionality
@@ -62,5 +63,3 @@ The subject of the notification message
 
 3. ToDo
 -------
-
-- Optimize messages plugin
