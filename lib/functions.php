@@ -155,7 +155,7 @@
 				// check if this is a notifiable entity type/subtype, this also shouldn't happen see above
 				if($default_subject = advanced_notifications_is_registered_notification_entity($entity, true)){
 					// let's prepare for sending
-					$default_message = $default_subject . ": " . $entity->getGUID();
+					$default_message = $default_subject . ": " . $entity->getURL();
 					
 					if(!empty($NOTIFICATION_HANDLERS) && is_array($NOTIFICATION_HANDLERS)){
 						// this could take a long time, especialy with large groups

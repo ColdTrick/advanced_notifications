@@ -1,5 +1,9 @@
 = Version History =
 
+x.x:
+
+- fixed: wrong default message body
+
 1.1 (2012-12-20):
 
 - added: optional replace site notifications with a personalized river view
