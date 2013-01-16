@@ -3,6 +3,7 @@
 x.x:
 
 - fixed: wrong default message body
+- fixed: limit issues with the new activity tabs
 
 1.1 (2012-12-20):
 

@@ -31,6 +31,7 @@ switch ($page_type) {
 		
 		$groups_options = array(
 			"type" => "group",
+			"limit" => false,
 			"relationship" => "member",
 			"relationship_guid" => elgg_get_logged_in_user_guid(),
 			"callback" => "advanced_notifications_row_to_guid"
@@ -38,7 +39,7 @@ switch ($page_type) {
 		
 		if($groups = elgg_get_entities_from_relationship($groups_options)){
 			$options['joins'] = array("JOIN " . $dbprefix . "entities e ON rv.object_guid = e.guid");
-			$options['wheres'] = array("e.container_guid IN (" . implode(",", $groups) . ")");
+			$options['wheres'] = array("(rv.object_guid IN (" . implode(",", $groups) . ") OR e.container_guid IN (" . implode(",", $groups) . "))");
 			
 			$activity = elgg_list_river($options);
 		}
@@ -49,6 +50,7 @@ switch ($page_type) {
 
 		$notifications_options = array(
 			"relationship" => "notifysite",
+			"limit" => false,
 			"relationship_guid" => elgg_get_logged_in_user_guid(),
 			"callback" => "advanced_notifications_row_to_guid"
 		);
@@ -59,8 +61,6 @@ switch ($page_type) {
 			
 			$activity = elgg_list_river($options);
 		}
-		
-		$activity = elgg_list_river($options);
 		break;
 	default:
 		forward();
