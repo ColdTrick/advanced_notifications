@@ -4,6 +4,7 @@ x.x:
 
 - fixed: wrong default message body
 - fixed: limit issues with the new activity tabs
+- fixed: bug with notify => site not working in some cases
 
 1.1 (2012-12-20):
 

@@ -157,6 +157,11 @@
 					// let's prepare for sending
 					$default_message = $default_subject . ": " . $entity->getURL();
 					
+					// check if we need to disable site notifications
+					if (elgg_get_plugin_setting("replace_site_notifications", "advanced_notifications") == "yes") {
+						unregister_notification_handler("site");
+					}
+					
 					if(!empty($NOTIFICATION_HANDLERS) && is_array($NOTIFICATION_HANDLERS)){
 						// this could take a long time, especialy with large groups
 						set_time_limit(0);
@@ -274,6 +279,11 @@
 						if($default_subject = advanced_notifications_is_registered_notification_entity($entity, true)){
 							// prepare the message to sent
 							$default_message = $default_subject . ": " . $entity->getURL();
+							
+							// check if we need to disable site notifications
+							if (elgg_get_plugin_setting("replace_site_notifications", "advanced_notifications") == "yes") {
+								unregister_notification_handler("site");
+							}
 							
 							if(!empty($NOTIFICATION_HANDLERS) && is_array($NOTIFICATION_HANDLERS)){
 								// this could take a long time, especialy with large groups

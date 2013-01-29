@@ -23,8 +23,6 @@
 			elgg_register_plugin_hook_handler("register", "menu:filter", "advanced_notifications_filter_menu_hook");
 	
 			elgg_register_plugin_hook_handler("route", "activity", "advanced_notifications_route_hook");
-			
-			register_notification_handler("site", "advanced_notifications_site_notify_handler");
 		}		
 	}
 	
@@ -48,10 +46,6 @@
 					
 			}
 		}		
-	}
-	
-	function advanced_notifications_site_notify_handler(){
-		return true;
 	}
 	
 	function advanced_notifications_filter_menu_hook($hooks, $type, $return_value, $params){
