@@ -23,6 +23,7 @@ if ($type != 'all') {
 }
 
 $dbprefix = elgg_get_config("dbprefix");
+$activity = false;
 
 switch ($page_type) {
 	case 'groups':
