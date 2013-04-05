@@ -1,6 +1,5 @@
 = Version History =
-
-x.x:
+1.1.1 (2013-04-05):
 
 - fixed: wrong default message body
 - fixed: limit issues with the new activity tabs
