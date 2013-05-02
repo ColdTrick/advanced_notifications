@@ -10,9 +10,14 @@
  	
  	<requires>
 		<type>elgg_release</type>
-		<version>1.8.3</version>
+		<version>1.8.14</version>
 	</requires>
 	
+	<requires>
+		<type>priority</type>
+		<plugin>blog</plugin>
+		<priority>after</priority>
+	</requires>
 	<requires>
 		<type>priority</type>
 		<plugin>groups</plugin>

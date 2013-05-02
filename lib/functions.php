@@ -1,10 +1,10 @@
 <?php
 
 	/**
-	 * 
-	 * Checks if the given $entity is registered for notifications by 
+	 *
+	 * Checks if the given $entity is registered for notifications by
 	 * register_notification_object()
-	 * 
+	 *
 	 * @param ElggEntity $entity
 	 * @param bool $subject => return the subject string (default false)
 	 * @return boolean | string
@@ -62,9 +62,9 @@
 	}
 
 	/**
-	 * 
+	 *
 	 * Start a new commandline php process to sent out the notifications
-	 * 
+	 *
 	 * @param array $options
 	 */
 	function advanced_notifications_start_commandline($options = array()){
@@ -102,7 +102,7 @@
 	
 	/**
 	 * Generate a secret to be used in calling the commandline
-	 * 
+	 *
 	 * @return string
 	 */
 	function advanced_notifications_generate_secret(){
@@ -120,7 +120,7 @@
 	
 	/**
 	 * Validate the secret provided to the commandline
-	 * 
+	 *
 	 * @param string $secret
 	 * @return boolean
 	 */
@@ -140,7 +140,7 @@
 	
 	/**
 	 * Sent out the notifications for the provided entity_guid
-	 * 
+	 *
 	 * @param int $guid
 	 * @param string $event
 	 */
@@ -152,6 +152,13 @@
 		if($entity = get_entity($guid)){
 			// check if the entity isn't private, this shouldn't happen as the commandline should have prevented this
 			if($entity->access_id != ACCESS_PRIVATE){
+				
+				// this is new as of Elgg 1.8.14
+				if ($event == "publish") {
+					// make sure some objects are registered as notification object
+					advanced_notifications_fix_notification_entities();
+				}
+				
 				// check if this is a notifiable entity type/subtype, this also shouldn't happen see above
 				if($default_subject = advanced_notifications_is_registered_notification_entity($entity, true)){
 					// let's prepare for sending
@@ -254,7 +261,7 @@
 	
 	/**
 	 *  Sent out the notifications for the provided annotation_id
-	 * 
+	 *
 	 * @param int $id
 	 * @param string $event
 	 */
@@ -378,7 +385,7 @@
 	
 	/**
 	 * Returns a Elgg datarow as GUID
-	 * 
+	 *
 	 * @param stdClass $row
 	 * @return int $guid
 	 */
@@ -387,9 +394,9 @@
 	}
 	
 	/**
-	 * 
+	 *
 	 * Unregister an entity type/subtype from notifications handling
-	 * 
+	 *
 	 * @param string $type
 	 * @param string $subtype
 	 */
@@ -414,3 +421,9 @@
 			}
 		}
 	}
+	
+	function advanced_notifications_fix_notification_entities() {
+		// fix blog
+		register_notification_object("object", "blog", elgg_echo("blog:newpost"));
+	}
+	

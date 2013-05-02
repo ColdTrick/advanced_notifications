@@ -1,4 +1,7 @@
 = Version History =
+x.x:
+- fixed: blog notification not handled as of Elgg 1.8.14
+
 1.1.1 (2013-04-05):
 
 - fixed: wrong default message body
