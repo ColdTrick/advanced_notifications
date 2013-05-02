@@ -10,6 +10,8 @@
 		'advanced_notifications:activity:groups:info' => "Activity in groups i am member of",
 		'advanced_notifications:activity:notifications' => "Personalized",
 		'advanced_notifications:activity:notifications:info' => "Activity based on my notification settings",
+		
+		'advanced_notifications:discussion:reply:subject' => "New group discussion reply",
 	);
 	
 	add_translation("en", $english);

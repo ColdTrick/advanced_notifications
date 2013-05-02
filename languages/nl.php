@@ -7,5 +7,6 @@ $language = array (
   'advanced_notifications:activity:groups:info' => 'Activiteit in groepen waar ik lid van ben',
   'advanced_notifications:activity:notifications' => 'Gepersonaliseerd',
   'advanced_notifications:activity:notifications:info' => 'Activiteit gebaseerd op mijn notificatie instellingen',
+  'advanced_notifications:discussion:reply:subject' => "Er is gereageerd op een discussie",
 );
 add_translation("nl", $language);

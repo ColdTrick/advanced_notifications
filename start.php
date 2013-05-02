@@ -18,6 +18,8 @@
 		elgg_unregister_event_handler("create", "annotation", "discussion_reply_notifications"); // for Elgg versions >= 1.8.6
 		elgg_unregister_event_handler("annotate", "all", "group_object_notifications"); // older versions of Elgg < 1.8.6
 		
+		elgg_register_plugin_hook_handler("notify:annotation:subject", "group_topic_post", "advanced_notifications_discussion_reply_subject_hook");
+		
 		// unregister some stuff from messages
 		elgg_unregister_plugin_hook_handler("notify:entity:message", "object", "messages_notification_msg");
 		advanced_notifications_unregister_notification_object("object", "messages");

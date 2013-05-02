@@ -52,3 +52,17 @@
 	
 		return $result;
 	}
+	
+	/**
+	 * Return a new subject for group discussion replies
+	 *
+	 * @param string $hooks
+	 * @param string $type
+	 * @param string $return_value
+	 * @param array $params
+	 * @return string
+	 */
+	function advanced_notifications_discussion_reply_subject_hook($hooks, $type, $return_value, $params) {
+		
+		return elgg_echo("advanced_notifications:discussion:reply:subject");
+	}
