@@ -9,9 +9,9 @@
 	function advanced_notifications_init(){
 		// default object notifications
 		elgg_register_event_handler("create", "object", "advanced_notifications_create_object_event_handler");
-		elgg_register_event_handler("publish", "object", "advanced_notifications_create_object_event_handler");
+		elgg_register_event_handler("publish", "object", "advanced_notifications_create_object_event_handler"); // for blog as of Elgg 1.8.14
 		elgg_unregister_event_handler("create", "object", "object_notifications");
-		elgg_unregister_event_handler("publish", "object", "object_notifications");
+		elgg_unregister_event_handler("publish", "object", "object_notifications"); // for blog as of Elgg 1.8.14
 		
 		// group forum topic notifications
 		elgg_register_event_handler("create", "annotation", "advanced_notifications_create_annotation_event_handler");
