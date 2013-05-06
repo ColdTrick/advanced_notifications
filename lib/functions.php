@@ -146,7 +146,6 @@
 	 */
 	function advanced_notifications_entity_notification($guid, $event){
 		global $NOTIFICATION_HANDLERS;
-		global $DB_QUERY_CACHE;
 		
 		// get the entity to notify
 		if($entity = get_entity($guid)){
@@ -240,10 +239,8 @@
 										}
 										
 										// cleanup some of the caches
-										if($DB_QUERY_CACHE){
-											$DB_QUERY_CACHE->clear();
-										}
-										invalidate_cache_for_entity($user_guid);
+										_elgg_invalidate_query_cache();
+										_elgg_invalidate_cache_for_entity($user_guid);
 										
 										unset($user);
 									}
@@ -267,7 +264,6 @@
 	 */
 	function advanced_notifications_annotation_notification($id, $event){
 		global $NOTIFICATION_HANDLERS;
-		global $DB_QUERY_CACHE;
 		
 		// get the annotation
 		if($annotation = elgg_get_annotation_from_id($id)){
@@ -362,10 +358,8 @@
 												}
 													
 												// cleanup some of the caches
-												if($DB_QUERY_CACHE){
-													$DB_QUERY_CACHE->clear();
-												}
-												invalidate_cache_for_entity($user_guid);
+												_elgg_invalidate_query_cache();
+												_elgg_invalidate_cache_for_entity($user_guid);
 													
 												unset($user);
 											}
