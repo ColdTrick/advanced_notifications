@@ -1,5 +1,5 @@
 = Version History =
-x.x:
+1.2 (2013-05-06):
 - added: custom subject for group discussion replies
 - fixed: blog notification not handled as of Elgg 1.8.14
 - fixed: using new cache functions
