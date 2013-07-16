@@ -27,7 +27,7 @@ $activity = false;
 
 switch ($page_type) {
 	case 'groups':
-		$title = elgg_echo('advanced_notifications:activity:groups');
+		$title = elgg_echo('advanced_notifications:activity:groups:title');
 		$page_filter = $page_type;
 		
 		$groups_options = array(
@@ -46,7 +46,7 @@ switch ($page_type) {
 		}
 		break;
 	case 'notifications':
-		$title = elgg_echo('advanced_notifications:activity:notifications');
+		$title = elgg_echo('advanced_notifications:activity:notifications:title');
 		$page_filter = $page_type;
 
 		$notifications_options = array(
@@ -77,6 +77,7 @@ $content = elgg_view('core/river/filter', array('selector' => $selector));
 $sidebar = elgg_view('core/river/sidebar');
 
 $params = array(
+	'title' => $title,
 	'content' =>  $content . $activity,
 	'sidebar' => $sidebar,
 	'filter_context' => $page_filter,
