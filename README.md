@@ -3,14 +3,7 @@ Advanced Notifications
 
 This plugin changes the way Elgg handles some notifications, it doesn't change the content of the notification or who gets it.
 
-Contents
---------
-
-1. Features
-2. Added functionality
-3. ToDo
-
-1. Features
+Features
 -----------
 
 - Offloading of notifications, so the acting user isn't affected by the amount of sent notifications
@@ -18,9 +11,9 @@ Contents
 - Optionally replace site notifications with a personalized river view
 - Some extra plugin hooks for developers (see next section)
 
-2. Added functionality
+Added functionality
 ----------------------
-### 2.1. Change recipients
+### Change recipients
 Plugin hook on: "interested_users:options" "notify:[method]"
 
 Parameters:
@@ -33,7 +26,7 @@ Parameters:
 Result:
 The options array to be passed on to elgg_get_entities_from_relationship
 
-### 2.2. Change the message body (existing functionality)
+### Change the message body (existing functionality)
 Plugin hook on: "notify:entity:message" "[entity type]"  
 or "notify:annotation:message" "[annotation subtype]"
 
@@ -47,7 +40,7 @@ Parameters:
 Result:
 The contents of the notification message
 
-### 2.3. Change the message subject
+### Change the message subject
 Plugin hook on: "notify:entity:subject" "[entity type]"  
 or "notify:annotation:subject" "[annotation subtype]"
 
@@ -60,6 +53,3 @@ Parameters:
 
 Result:
 The subject of the notification message
-
-3. ToDo
--------
