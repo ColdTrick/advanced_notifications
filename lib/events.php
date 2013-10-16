@@ -2,7 +2,7 @@
 
 	/**
 	 * Handles the sending of notifications when a new (registered) object is created
-	 * 
+	 *
 	 * @param string $event
 	 * @param string $type
 	 * @param ElggObject $object
@@ -40,7 +40,7 @@
 	
 	/**
 	 * Handles the sending of notifications when replied on group forum topic
-	 * 
+	 *
 	 * @param string $event
 	 * @param string $type
 	 * @param ElggAnnotation $annotation

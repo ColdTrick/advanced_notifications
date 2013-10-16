@@ -20,6 +20,13 @@
 		
 		elgg_register_plugin_hook_handler("notify:annotation:subject", "group_topic_post", "advanced_notifications_discussion_reply_subject_hook");
 		
+		// replace the email notification body
+		elgg_register_plugin_hook_handler("notify:entity:message", "object", "advanced_notifications_email_body_hook", 99999);
+		elgg_register_plugin_hook_handler("notify:annotation:message", "group_topic_post", "advanced_notifications_email_body_hook", 99999);
+		elgg_register_plugin_hook_handler("action", "comments/add", "advanced_notifications_comment_action_hook");
+		
+		
+		
 		// unregister some stuff from messages
 		elgg_unregister_plugin_hook_handler("notify:entity:message", "object", "messages_notification_msg");
 		advanced_notifications_unregister_notification_object("object", "messages");

@@ -421,3 +421,17 @@
 		register_notification_object("object", "blog", elgg_echo("blog:newpost"));
 	}
 	
+	function advanced_notifications_no_mail_content() {
+		static $result;
+		
+		if (!isset($result)) {
+			$result = false;
+			
+			if (elgg_get_plugin_setting("no_mail_content", "advanced_notifications") == "yes") {
+				$result = true;
+			}
+		}
+		
+		return $result;
+	}
+	

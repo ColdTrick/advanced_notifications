@@ -66,3 +66,64 @@
 		
 		return elgg_echo("advanced_notifications:discussion:reply:subject");
 	}
+	
+	/**
+	 * Replace the message body of the notification with an url to the content (default behaviour)
+	 *
+	 * @param string $hooks
+	 * @param string $type
+	 * @param string $return_value
+	 * @param array $params
+	 * @return string
+	 */
+	function advanced_notifications_email_body_hook($hooks, $type, $return_value, $params) {
+		$result = $return_value;
+		
+		if (!empty($params) && is_array($params)) {
+			$method = elgg_extract("method", $params);
+			
+			// only replace email body
+			if (!empty($method) && ($method == "email")) {
+				// get the entity or annotation for the body
+				$entity = elgg_extract("entity", $params);
+				$annotation = elgg_extract("annotation", $params);
+				
+				if (!empty($entity) || !empty($annotation)) {
+					// check if we need to replace the message
+					if (advanced_notifications_no_mail_content()) {
+						if (empty($entity) && !empty($annotation)) {
+							// we have a comment on a discussion
+							$entity = $annotation->getEntity();
+						}
+						
+						// return the url to the entity
+						$result = elgg_echo("advanced_notifications:notification:email:body", array($entity->getURL()));
+					}
+				}
+			}
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * In case we choose to replace the email body content, overrule the default action
+	 *
+	 * @param string $hooks
+	 * @param string $type
+	 * @param boolean $return_value
+	 * @param array $params
+	 * @return boolean
+	 */
+	function advanced_notifications_comment_action_hook($hooks, $type, $return_value, $params) {
+		$result = $return_value;
+		
+		if (advanced_notifications_no_mail_content()) {
+			// we'll take over because no mail content may leave the site
+			$result = false;
+			
+			include(dirname(dirname(__FILE__)) . "/actions/comments/add.php");
+		}
+		
+		return $result;
+	}

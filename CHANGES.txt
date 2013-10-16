@@ -2,6 +2,7 @@
 
 x.x:
 
+- added: setting to disable email notification bodies
 - changed: activity page titles now match document title
 
 1.2 (2013-05-06):
