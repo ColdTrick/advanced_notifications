@@ -435,3 +435,16 @@
 		return $result;
 	}
 	
+	function advanced_notifications_replace_site_notifications() {
+		static $result;
+		
+		if (!isset($result)) {
+			$result = false;
+				
+			if (elgg_get_plugin_setting("replace_site_notifications", "advanced_notifications") == "yes") {
+				$result = true;
+			}
+		}
+		
+		return $result;
+	}

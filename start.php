@@ -31,10 +31,8 @@
 		elgg_unregister_plugin_hook_handler("notify:entity:message", "object", "messages_notification_msg");
 		advanced_notifications_unregister_notification_object("object", "messages");
 		
-		if (elgg_get_plugin_setting("replace_site_notifications", "advanced_notifications") == "yes") {
-			elgg_register_plugin_hook_handler("register", "menu:filter", "advanced_notifications_filter_menu_hook");
-	
-			elgg_register_plugin_hook_handler("route", "activity", "advanced_notifications_route_hook");
-		}
+		// replace site notifications
+		elgg_register_plugin_hook_handler("register", "menu:filter", "advanced_notifications_filter_menu_hook");
+		elgg_register_plugin_hook_handler("route", "activity", "advanced_notifications_route_hook");
 	}
 	
