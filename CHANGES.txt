@@ -1,6 +1,6 @@
 = Version History =
 
-x.x:
+1.3 (2013-10-31):
 
 - added: setting to disable email notification bodies
 - changed: activity page titles now match document title
