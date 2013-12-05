@@ -10,8 +10,10 @@
 		// default object notifications
 		elgg_register_event_handler("create", "object", "advanced_notifications_create_object_event_handler");
 		elgg_register_event_handler("publish", "object", "advanced_notifications_create_object_event_handler"); // for blog as of Elgg 1.8.14
+		elgg_register_event_handler("notify", "album", "advanced_notifications_create_object_event_handler"); // for TidyPics
 		elgg_unregister_event_handler("create", "object", "object_notifications");
 		elgg_unregister_event_handler("publish", "object", "object_notifications"); // for blog as of Elgg 1.8.14
+		elgg_unregister_event_handler("notify", "album", "object_notifications"); // for TidyPics
 		
 		// group forum topic notifications
 		elgg_register_event_handler("create", "annotation", "advanced_notifications_create_annotation_event_handler");
@@ -24,8 +26,6 @@
 		elgg_register_plugin_hook_handler("notify:entity:message", "object", "advanced_notifications_email_body_hook", 99999);
 		elgg_register_plugin_hook_handler("notify:annotation:message", "group_topic_post", "advanced_notifications_email_body_hook", 99999);
 		elgg_register_plugin_hook_handler("action", "comments/add", "advanced_notifications_comment_action_hook");
-		
-		
 		
 		// unregister some stuff from messages
 		elgg_unregister_plugin_hook_handler("notify:entity:message", "object", "messages_notification_msg");

@@ -1,5 +1,9 @@
 = Version History =
 
+x.x:
+
+- added: support for TidyPics notifications
+
 1.3 (2013-10-31):
 
 - added: setting to disable email notification bodies
