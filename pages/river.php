@@ -81,7 +81,7 @@ $sidebar = elgg_view("core/river/sidebar");
 
 $params = array(
 	"title" => $title,
-	"content" =>  $content . $activity,
+	"content" => $content . $activity,
 	"sidebar" => $sidebar,
 	"filter_context" => $page_filter,
 	"class" => "elgg-river-layout",
