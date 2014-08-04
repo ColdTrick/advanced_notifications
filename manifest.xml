@@ -5,9 +5,10 @@
 	<version>1.3</version>
 	<description>Changes the way some notifications are handled.</description>
 	<website>http://www.coldtrick.com/</website>
+	<id>advanced_notifications</id>
 	<repository>https://github.com/ColdTrick/advanced_notifications</repository>
 	<bugtracker>https://github.com/ColdTrick/advanced_notifications/issues</bugtracker>
-	<copyright>(C) ColdTrick IT Solutions 2012 - 2013</copyright>
+	<copyright>(C) ColdTrick IT Solutions 2012 - 2014</copyright>
 	<license>GNU General Public License version 2</license>
  	
  	<requires>
