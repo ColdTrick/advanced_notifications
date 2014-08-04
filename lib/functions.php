@@ -198,7 +198,7 @@ function advanced_notifications_entity_notification($guid, $event) {
 					
 					// if we have a logged in user, don't notify him/her
 					$logged_in_user_guid = elgg_get_logged_in_user_guid();
-					if (!emtpy($logged_in_user_guid)) {
+					if (!empty($logged_in_user_guid)) {
 						$options["wheres"][] = "(e.guid <> " . $logged_in_user_guid . ")";
 					}
 					

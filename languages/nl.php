@@ -12,6 +12,7 @@ $language = array (
   'advanced_notifications:activity:notifications' => 'Gepersonaliseerd',
   'advanced_notifications:activity:notifications:title' => 'Gepersonaliseerde activiteiten',
   'advanced_notifications:activity:notifications:info' => 'Activiteit gebaseerd op mijn notificatie instellingen',
-  'advanced_notifications:discussion:reply:subject' => 'Er is gereageerd op een discussie',
+  'advanced_notifications:discussion:create:subject' => 'Er is een discussie gestart %s',
+  'advanced_notifications:discussion:reply:subject' => 'Er is gereageerd op een discussie %s',
 );
 add_translation("nl", $language);

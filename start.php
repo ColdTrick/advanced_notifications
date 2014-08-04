@@ -29,6 +29,7 @@ function advanced_notifications_init() {
 	elgg_unregister_event_handler("annotate", "all", "group_object_notifications"); // older versions of Elgg < 1.8.6
 	
 	elgg_register_plugin_hook_handler("notify:annotation:subject", "group_topic_post", "advanced_notifications_discussion_reply_subject_hook");
+	elgg_register_plugin_hook_handler("notify:entity:subject", "object", "advanced_notifications_discussion_subject_hook");
 	
 	// replace the email notification body
 	elgg_register_plugin_hook_handler("notify:entity:message", "object", "advanced_notifications_email_body_hook", 99999);

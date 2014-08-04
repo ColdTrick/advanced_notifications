@@ -82,6 +82,30 @@ function advanced_notifications_filter_menu_hook($hooks, $type, $return_value, $
 }
 
 /**
+ * Return a new subject for group discussion creation
+ *
+ * @param string $hooks        the name of the hook
+ * @param string $type         the type of the hook
+ * @param string $return_value the current return value
+ * @param array  $params       supplied params
+ *
+ * @return string
+ */
+function advanced_notifications_discussion_subject_hook($hooks, $type, $return_value, $params) {
+	
+	if (empty($params) || !is_array($params)) {
+		return $return_value;
+	}
+	
+	$entity = elgg_extract("entity", $params);
+	if (empty($entity) || !elgg_instanceof($entity, "object", "groupforumtopic")) {
+		return $return_value;
+	}
+	
+	return elgg_echo("advanced_notifications:discussion:create:subject", array($entity->title));
+}
+
+/**
  * Return a new subject for group discussion replies
  *
  * @param string $hooks        the name of the hook
@@ -93,7 +117,21 @@ function advanced_notifications_filter_menu_hook($hooks, $type, $return_value, $
  */
 function advanced_notifications_discussion_reply_subject_hook($hooks, $type, $return_value, $params) {
 	
-	return elgg_echo("advanced_notifications:discussion:reply:subject");
+	if (empty($params) || !is_array($params)) {
+		return $return_value;
+	}
+	
+	$annotation = elgg_extract("annotation", $params);
+	if (empty($annotation) || !($annotation instanceof ElggAnnotation)) {
+		return $return_value;
+	}
+	
+	$entity = $annotation->getEntity();
+	if (empty($entity) || !elgg_instanceof($entity, "object", "groupforumtopic")) {
+		return $return_value;
+	}
+	
+	return elgg_echo("advanced_notifications:discussion:reply:subject", array($entity->title));
 }
 
 /**

@@ -13,9 +13,9 @@ $french = array(
 	'advanced_notifications:activity:notifications:title' => "Activité personnalisée",
 	'advanced_notifications:activity:notifications:info' => "Activité basée sur mes paramètres de notification",
 	
-	'advanced_notifications:discussion:reply:subject' => "Nouvelle réponse à un sujet de forum de groupe",
+	'advanced_notifications:discussion:reply:subject' => "Nouvelle réponse à un sujet de forum de groupe %s",
 	
-	'advanced_notifications:notification:email:body' => "Pour afficher le contenu, cliquez ici 
+	'advanced_notifications:notification:email:body' => "Pour afficher le contenu, cliquez ici
 %s",
 );
 
