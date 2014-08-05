@@ -147,29 +147,59 @@ function advanced_notifications_discussion_reply_subject_hook($hooks, $type, $re
 function advanced_notifications_email_body_hook($hooks, $type, $return_value, $params) {
 	$result = $return_value;
 	
-	if (!empty($params) && is_array($params)) {
-		$method = elgg_extract("method", $params);
-		
-		// only replace email body
-		if (!empty($method) && ($method == "email")) {
-			// get the entity or annotation for the body
-			$entity = elgg_extract("entity", $params);
-			$annotation = elgg_extract("annotation", $params);
-			
-			if (!empty($entity) || !empty($annotation)) {
-				// check if we need to replace the message
-				if (advanced_notifications_no_mail_content()) {
-					if (empty($entity) && !empty($annotation)) {
-						// we have a comment on a discussion
-						$entity = $annotation->getEntity();
-					}
-					
-					// return the url to the entity
-					$result = elgg_echo("advanced_notifications:notification:email:body", array($entity->getURL()));
-				}
-			}
-		}
+	if (empty($params) || !is_array($params)) {
+		return $result;
 	}
+	
+	// thewire part
+	$entity = elgg_extract("entity", $params);
+	
+	if (elgg_instanceof($entity, "object", "thewire")) {
+		$descr = $entity->description;
+		$owner = $entity->getOwnerEntity();
+		
+		if ($entity->reply) {
+			$parents = $entity->getEntitiesFromRelationship("parent", false, 1);
+			
+			if ($parents) {
+				$parent_owner = $parents[0]->getOwnerEntity();
+			}
+			$result = elgg_echo("thewire:notify:reply", array($owner->name, $parent_owner->name));
+		} else {
+			$result = elgg_echo("thewire:notify:post", array($owner->name));
+		}
+		
+		$result .= "\n\n" . $descr . "\n\n";
+		$result .= elgg_echo("thewire") . ": " . elgg_get_site_url() . "thewire";
+	}
+	// end: thewire
+	
+	// replace body by a link to the entity?
+	// check if we need to replace the message
+	if (!advanced_notifications_no_mail_content()) {
+		return $result;
+	}
+	
+	// only replace email body
+	$method = elgg_extract("method", $params);
+	if (empty($method) || ($method != "email")) {
+		return $result;
+	}
+	
+	// get the entity or annotation for the body
+	$annotation = elgg_extract("annotation", $params);
+		
+	if (empty($entity) && empty($annotation)) {
+		return $result;
+	}
+			
+	if (empty($entity) && !empty($annotation)) {
+		// we have a comment on a discussion
+		$entity = $annotation->getEntity();
+	}
+		
+	// return the url to the entity
+	$result = elgg_echo("advanced_notifications:notification:email:body", array($entity->getURL()));
 	
 	return $result;
 }

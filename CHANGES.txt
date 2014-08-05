@@ -5,6 +5,7 @@ x.x:
 - applied coding standards
 - added: support for TidyPics notifications
 - added: discussion title in notifications
+- fixed: issue with thewire reply messages
 
 1.3 (2013-10-31):
 
