@@ -1,0 +1,18 @@
+{
+	"name": "coldtrick/advanced_notifications",
+	"description": "Enchancements on the Elgg notification system",
+	"type": "elgg-plugin",
+	"keywords": ["elgg", "plugin"],
+	"license": "GPL-2.0",
+	"support": {
+		"source": "https://github.com/ColdTrick/advanced_notifications",
+		"issues": "https://github.com/ColdTrick/advanced_notifications/issues"
+	},
+	"require": {
+		"composer/installers": "^1.0.8"
+	},
+	"require-dev": {
+		"coldtrick/sniffs": "dev-master",
+		"coldtrick/releases": "dev-master"
+	}
+}
