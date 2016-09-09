@@ -10,3 +10,5 @@ This plugin changes the way Elgg handles some notifications, it doesn't change t
 
 Features
 -----------
+
+- Prevent the enqueing of a notifcation if the content is private. This will prevent notifications to admins about private content.
