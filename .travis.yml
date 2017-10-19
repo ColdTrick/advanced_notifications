@@ -36,7 +36,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: k96/My+LgvBK+5plBRFPSPxddaRWgN18d5t/Ex8GNAQtFNU9sNhrce+iwYM73z5AoQ7uBt+9EqHVwVo37b2iCqSMS9K+NDcWowMesx+1UPTH4+kJ4lkLRIgi2ep9WIVWwIMnIscLgJgwrIhcTVNY5MRG1iCCBnFLTKrEtRQ6jR8=
+    secure: n2+lunpwFl2NZxDNKMEfVQOPx6tcV0uzcSz6UTX3q6xkqdubcWCAWtc6PwBOPsz6Bth1Y9bcWGeTpWYWjnUUTA78OgQv9UK3t4Os5u8v5s08q20VWLZtH8RQhLpN4l5VH397B/9q8aej7tG/r5K2mnACHICWWPjhXd2pKjzk56o=
   # name of the zip to upload
   file: ${PROJECTNAME}_$TRAVIS_TAG.zip
   skip_cleanup: true
