@@ -1,6 +1,11 @@
 Version history
 ===============
 
+3.0 (2017-10-19):
+
+- added: configurable delay for picking up items out of notification queue
+- changed: update minimal Elgg requirements to 2.3
+
 2.0 (2016-09-15):
 
 - added: delay content notifications until content is no longer private
