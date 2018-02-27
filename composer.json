@@ -3,7 +3,7 @@
 	"description": "Enchancements on the Elgg notification system",
 	"type": "elgg-plugin",
 	"keywords": ["elgg", "plugin"],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"support": {
 		"source": "https://github.com/ColdTrick/advanced_notifications",
 		"issues": "https://github.com/ColdTrick/advanced_notifications/issues"
