@@ -26,6 +26,7 @@ function advanced_notifications_plugins_boot() {
 		return new \Elgg\Notifications\NotificationsService($sub, $queue, $sp->hooks, $sp->session, $sp->translator, $sp->entityTable, $sp->logger);
 	});
 }
+
 /**
  * Gets called during system initialization
  *
