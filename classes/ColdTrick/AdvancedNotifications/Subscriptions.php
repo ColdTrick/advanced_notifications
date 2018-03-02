@@ -33,20 +33,22 @@ class Subscriptions {
 			return;
 		}
 		
-		if ($object instanceof \ElggComment && !$event instanceof InstantNotificationEvent) {
-			// don't extend delayed/enqueued comment notifications
-			return;
-		}
-		
-		if (!$object instanceof \ElggComment && $event instanceof InstantNotificationEvent) {
-			// only extend the enqueued notifications
-			return;
-		}
-		
 		if ($object->owner_guid === $object->container_guid) {
 			// container subscribers are already added
 			// since owner is the same, don't duplicate
 			return;
+		}
+		
+		if ($event instanceof InstantNotificationEvent) {
+			if (!$object instanceof \ElggComment) {
+				// only extend the enqueued notifications
+				return;
+			}
+			
+			if (self::isRegisteredNotificationEvent($object->getType(), $object->getSubtype(), $event->getAction())) {
+				// event will also be enqueued, extend subscribers then
+				return;
+			}
 		}
 		
 		$subscribers = elgg_get_subscriptions_for_container($object->owner_guid);
@@ -64,5 +66,32 @@ class Subscriptions {
 		}
 		
 		return $return_value;
+	}
+	
+	/**
+	 * Check if a notification event is registered
+	 *
+	 * @param string $type    object type
+	 * @param string $subtype object subtype
+	 * @param string $action  action (create, update, etc)
+	 *
+	 * @return bool
+	 */
+	protected static function isRegisteredNotificationEvent($type, $subtype, $action) {
+		
+		$events = _elgg_services()->notifications->getEvents();
+		if (empty($events) || !is_array($events)) {
+			return false;
+		}
+		
+		if (!isset($events[$type]) || !isset($events[$type][$subtype])) {
+			return false;
+		}
+		
+		if (!in_array($action, $events[$type][$subtype])) {
+			return false;
+		}
+		
+		return true;
 	}
 }
