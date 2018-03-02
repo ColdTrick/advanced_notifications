@@ -3,6 +3,7 @@
 namespace ColdTrick\AdvancedNotifications;
 
 use Elgg\Notifications\NotificationEvent;
+use Elgg\Notifications\InstantNotificationEvent;
 
 class Subscriptions {
 	
@@ -29,6 +30,16 @@ class Subscriptions {
 		
 		$object = $event->getObject();
 		if (!$object instanceof \ElggEntity) {
+			return;
+		}
+		
+		if ($object instanceof \ElggComment && !$event instanceof InstantNotificationEvent) {
+			// don't extend delayed/enqueued comment notifications
+			return;
+		}
+		
+		if (!$object instanceof \ElggComment && $event instanceof InstantNotificationEvent) {
+			// only extend the enqueued notifications
 			return;
 		}
 		
