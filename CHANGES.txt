@@ -1,6 +1,10 @@
 Version history
 ===============
 
+3.1 (2018-03-08):
+
+- added: plugin setting to notify owner subscribers
+
 3.0.1 (2017-10-19):
 
 - several small chores/fixes
