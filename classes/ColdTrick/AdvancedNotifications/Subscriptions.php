@@ -49,6 +49,8 @@ class Subscriptions {
 				// event will also be enqueued, extend subscribers then
 				return;
 			}
+		} elseif (!self::isAllowedNotificationEvent($object->getType(), $object->getSubtype(), $event->getAction())) {
+			return;
 		}
 		
 		$subscribers = elgg_get_subscriptions_for_container($object->owner_guid);
@@ -79,7 +81,7 @@ class Subscriptions {
 	 */
 	protected static function isRegisteredNotificationEvent($type, $subtype, $action) {
 		
-		$events = _elgg_services()->notifications->getEvents();
+		$events = advanced_notifications_get_notification_events();
 		if (empty($events) || !is_array($events)) {
 			return false;
 		}
@@ -93,5 +95,28 @@ class Subscriptions {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Check if a notification event is allowed to be extended
+	 *
+	 * @param string $type    object type
+	 * @param string $subtype object subtype
+	 * @param string $action  action (create, update, etc)
+	 *
+	 * @return bool
+	 */
+	protected  static function isAllowedNotificationEvent($type, $subtype, $action) {
+		
+		$settings = advanced_notifications_get_owner_subscription_settings();
+		if (!isset($settings[$type])) {
+			return false;
+		}
+		
+		if (empty($subtype)) {
+			return true;
+		}
+		
+		return isset($settings[$type][$subtype]);
 	}
 }

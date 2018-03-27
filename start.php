@@ -3,6 +3,10 @@
  * The main plugin file
  */
 
+use Elgg\Di\ServiceProvider;
+
+require_once(__DIR__  . '/lib/functions.php');
+
 // register default Elgg events
 elgg_register_event_handler('init', 'system', 'advanced_notifications_init');
 elgg_register_event_handler('plugins_boot', 'system', 'advanced_notifications_plugins_boot');
@@ -19,7 +23,7 @@ function advanced_notifications_plugins_boot() {
 	}
 	
 	$sp = _elgg_services();
-	$sp->setFactory('notifications', function($sp) {
+	$sp->setFactory('notifications', function(ServiceProvider $sp) {
 		$queue_name = \Elgg\Notifications\NotificationsService::QUEUE_NAME;
 		$queue = new \ColdTrick\AdvancedNotifications\NotificationQueue($queue_name, $sp->db);
 		$sub = new \Elgg\Notifications\SubscriptionsService($sp->db);
@@ -39,6 +43,8 @@ function advanced_notifications_init() {
 	elgg_register_plugin_hook_handler('enqueue', 'notification', '\ColdTrick\AdvancedNotifications\Enqueue::delayPrivateContentNotification', 9001);
 	
 	elgg_register_plugin_hook_handler('get', 'subscriptions', '\ColdTrick\AdvancedNotifications\Subscriptions::addOwnerSubscribers');
+	
+	elgg_register_plugin_hook_handler('setting', 'plugin', '\ColdTrick\AdvancedNotifications\PluginSettings::setPluginSetting');
 	
 	// register event handlers
 	elgg_register_event_handler('update:after', 'object', '\ColdTrick\AdvancedNotifications\Enqueue::checkForDelayedNotification');
