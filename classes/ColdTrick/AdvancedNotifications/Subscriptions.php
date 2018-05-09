@@ -55,6 +55,7 @@ class Subscriptions {
 			return;
 		}
 		
+		$return_value = $hook->getValue();
 		foreach ($subscribers as $user_guid => $methods) {
 			if (isset($return_value[$user_guid])) {
 				// already in the list, don't add/overrule settings

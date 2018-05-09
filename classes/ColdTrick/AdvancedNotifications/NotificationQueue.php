@@ -16,6 +16,7 @@ class NotificationQueue extends \Elgg\Queue\DatabaseQueue {
 		$prefix = $this->db->prefix;
 		$name = $this->name;
 		$worker_id = $this->workerId;
+		$time = time() - $this->getDelay();
 		
 		$update = "UPDATE {$prefix}queue
 			SET worker = :worker
