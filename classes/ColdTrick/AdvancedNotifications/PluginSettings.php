@@ -7,20 +7,18 @@ class PluginSettings {
 	/**
 	 * Change the value of a plugin setting
 	 *
-	 * @param string $hook         the name of the hook
-	 * @param string $type         the type of the hook
-	 * @param mixed  $return_value current return value
-	 * @param array  $params       supplied params
+	 * @param \Elgg\Hook $hook 'setting', 'plugin'
 	 *
 	 * @return void|string
 	 */
-	public static function setPluginSetting($hook, $type, $return_value, $params) {
+	public static function setPluginSetting(\Elgg\Hook $hook) {
 		
+		$return_value = $hook->getValue();
 		if (!is_array($return_value)) {
 			return;
 		}
 		
-		if (elgg_extract('plugin_id', $params) !== 'advanced_notifications') {
+		if ($hook->getParam('plugin_id') !== 'advanced_notifications') {
 			return;
 		}
 		

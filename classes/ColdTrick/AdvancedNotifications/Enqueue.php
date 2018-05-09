@@ -7,26 +7,19 @@ class Enqueue {
 	/**
 	 * Prevent the enqueing of a notification event for private content
 	 *
-	 * @param string $hook         the name of the hook
-	 * @param string $type         the type of the hook
-	 * @param bool   $return_value current return value
-	 * @param array  $params       supplied params
+	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
 	 *
 	 * @return void|false
 	 */
-	public static function preventPrivateNotifications($hook, $type, $return_value, $params) {
+	public static function preventPrivateNotifications(\Elgg\Hook $hook) {
 		
-		if ($return_value !== true) {
+		if ($hook->getValue() !== true) {
 			// already prevented
 			return;
 		}
 		
-		if (!is_array($params)) {
-			return;
-		}
-		
-		$object = elgg_extract('object', $params);
-		if (!($object instanceof \ElggEntity) && !($object instanceof \ElggExtender)) {
+		$object = $hook->getParam('object');
+		if (!$object instanceof \ElggEntity && !$object instanceof \ElggExtender) {
 			return;
 		}
 		
@@ -43,21 +36,14 @@ class Enqueue {
 	 *
 	 * Mainly the create notifications
 	 *
-	 * @param string $hook         the name of the hook
-	 * @param string $type         the type of the hook
-	 * @param bool   $return_value current return value
-	 * @param array  $params       supplied params
+	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
 	 *
 	 * @return void|false
 	 */
-	public static function delayPrivateContentNotification($hook, $type, $return_value, $params) {
+	public static function delayPrivateContentNotification(\Elgg\Hook $hook) {
 		
-		if (!is_array($params)) {
-			return;
-		}
-		
-		$object = elgg_extract('object', $params);
-		if (!($object instanceof \ElggObject)) {
+		$object = $hook->getParam('object');
+		if (!$object instanceof \ElggObject) {
 			return;
 		}
 		
@@ -66,27 +52,27 @@ class Enqueue {
 			return;
 		}
 		
-		$action = elgg_extract('action', $params);
+		$action = $hook->getParam('action');
 		if (!self::isSupportedDelayAction($action, $object)) {
 			return;
 		}
 		
 		$object->advanced_notifications_delayed_action = $action;
+		
 		return false;
 	}
 	
 	/**
 	 * Check if delayed notification for this object is needed
 	 *
-	 * @param string      $event  the name of the event
-	 * @param string      $type   the type of the event
-	 * @param \ElggObject $object supplied object
+	 * @param \Elgg\Event $event 'update:after', 'object'
 	 *
 	 * @return void
 	 */
-	public static function checkForDelayedNotification($event, $type, \ElggObject $object) {
+	public static function checkForDelayedNotification(\Elgg\Event $event) {
 		
-		if (!($object instanceof \ElggObject)) {
+		$object = $event->getObject();
+		if (!$object instanceof \ElggObject) {
 			return;
 		}
 		
@@ -122,7 +108,7 @@ class Enqueue {
 	 */
 	protected static function isSupportedDelayAction($action, \ElggObject $object) {
 		
-		if (empty($action) || !($object instanceof \ElggObject)) {
+		if (empty($action) || !$object instanceof \ElggObject) {
 			return false;
 		}
 		

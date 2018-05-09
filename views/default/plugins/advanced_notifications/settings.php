@@ -19,12 +19,13 @@ $owner = elgg_view_field([
 	'name' => 'params[notify_owner_subscribers]',
 	'value' => 1,
 	'checked' => (bool) $plugin->notify_owner_subscribers,
+	'switch' => true,
 ]);
 
 $notification_events = advanced_notifications_get_notification_events();
 if (!empty($notification_events)) {
 	$owner_subscriptions = advanced_notifications_get_owner_subscription_settings();
-	$allowed_types = elgg_get_config('entity_types');
+	$allowed_types = \Elgg\Config::getEntityTypes();
 	
 	$header = [
 		elgg_format_element('th', [], elgg_echo('table_columns:fromProperty:type')),
@@ -57,6 +58,7 @@ if (!empty($notification_events)) {
 				'default' => 0,
 				'value' => 1,
 				'checked' => isset($owner_subscriptions[$type][$subtype]),
+				'switch' => true,
 			]));
 			
 			$rows[] = elgg_format_element('tr', [], implode(PHP_EOL, $row));
@@ -72,4 +74,4 @@ if (!empty($notification_events)) {
 	$owner .= elgg_format_element('table', ['class' => 'elgg-table-alt'], $header . $body);
 }
 
-echo elgg_view_module('inline', elgg_echo('advanced_notifications:settings:owner'), $owner);
+echo elgg_view_module('info', elgg_echo('advanced_notifications:settings:owner'), $owner);

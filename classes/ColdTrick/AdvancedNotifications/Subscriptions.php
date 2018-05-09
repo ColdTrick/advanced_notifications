@@ -10,20 +10,17 @@ class Subscriptions {
 	/**
 	 * Add content owner subscribers to the list
 	 *
-	 * @param string $hook         the name of the hook
-	 * @param string $type         the type of the hook
-	 * @param array  $return_value current return value
-	 * @param array  $params       supplied params
+	 * @param \Elgg\Hook $hook 'get', 'subscriptions'
 	 *
 	 * @return void|array
 	 */
-	public static function addOwnerSubscribers($hook, $type, $return_value, $params) {
+	public static function addOwnerSubscribers(\Elgg\Hook $hook) {
 		
 		if (!elgg_get_plugin_setting('notify_owner_subscribers', 'advanced_notifications')) {
 			return;
 		}
 		
-		$event = elgg_extract('event', $params);
+		$event = $hook->getParam('event');
 		if (!$event instanceof NotificationEvent) {
 			return;
 		}
@@ -106,7 +103,7 @@ class Subscriptions {
 	 *
 	 * @return bool
 	 */
-	protected  static function isAllowedNotificationEvent($type, $subtype, $action) {
+	protected static function isAllowedNotificationEvent($type, $subtype, $action) {
 		
 		$settings = advanced_notifications_get_owner_subscription_settings();
 		if (!isset($settings[$type])) {
