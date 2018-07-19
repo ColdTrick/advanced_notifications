@@ -43,6 +43,7 @@ function advanced_notifications_init() {
 	elgg_register_plugin_hook_handler('enqueue', 'notification', '\ColdTrick\AdvancedNotifications\Enqueue::delayPrivateContentNotification', 9001);
 	
 	elgg_register_plugin_hook_handler('get', 'subscriptions', '\ColdTrick\AdvancedNotifications\Subscriptions::addOwnerSubscribers');
+	elgg_register_plugin_hook_handler('get', 'subscriptions', '\ColdTrick\AdvancedNotifications\Subscriptions::checkAccessCollectionMembership', 9000);
 	
 	elgg_register_plugin_hook_handler('setting', 'plugin', '\ColdTrick\AdvancedNotifications\PluginSettings::setPluginSetting');
 	

@@ -119,4 +119,64 @@ class Subscriptions {
 		
 		return isset($settings[$type][$subtype]);
 	}
+	
+	/**
+	 * Validate that subscribers are member of an access collection.
+	 *
+	 * Not realy needed for 'normal' users but for admins this is required, as access isn't vaidated to them
+	 *
+	 * @param string $hook         the name of the hook
+	 * @param string $type         the type of the hook
+	 * @param array  $return_value current return value
+	 * @param array  $params       supplied params
+	 *
+	 * @return void|array
+	 */
+	public static function checkAccessCollectionMembership($hook, $type, $return_value, $params) {
+		
+		if (empty($return_value)) {
+			// no subscribers to validate
+			return;
+		}
+		
+		$event = elgg_extract('event', $params);
+		if (!$event instanceof NotificationEvent) {
+			return;
+		}
+		
+		$object = $event->getObject();
+		$ignored_access_ids = [
+			ACCESS_PRIVATE,
+			ACCESS_FRIENDS,
+			ACCESS_LOGGED_IN,
+			ACCESS_PUBLIC,
+		];
+		if (!$object instanceof \ElggEntity || in_array($object->access_id, $ignored_access_ids)) {
+			return;
+		}
+		
+		$acl = get_access_collection($object->access_id);
+		if ($acl === false) {
+			// not an ACL
+			return;
+		}
+		
+		$acl_members = get_members_of_access_collection($object->access_id, true);
+		if (empty($acl_members)) {
+			// acl has no members, so remove everybody
+			return [];
+		}
+		
+		$guids_to_remove = array_diff(array_keys($return_value), $acl_members);
+		if (empty($guids_to_remove)) {
+			// nothing to cleanup
+			return;
+		}
+		
+		foreach ($guids_to_remove as $guid) {
+			unset($return_value[$guid]);
+		}
+		
+		return $return_value;
+	}
 }
