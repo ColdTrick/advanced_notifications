@@ -29,7 +29,7 @@ class Subscriptions {
 		}
 		
 		$object = $event->getObject();
-		if (!$object instanceof \ElggEntity) {
+		if (!$object instanceof \ElggEntity || $object->access_id === ACCESS_PRIVATE) {
 			return;
 		}
 		
