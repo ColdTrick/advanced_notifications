@@ -2,8 +2,7 @@
 
 namespace ColdTrick\AdvancedNotifications;
 
-use Elgg\Notifications\NotificationEvent;
-use Elgg\Notifications\InstantNotificationEvent;
+use Elgg\Notifications\SubscriptionNotificationEvent;
 
 class Subscriptions {
 	
@@ -21,7 +20,7 @@ class Subscriptions {
 		}
 		
 		$event = $hook->getParam('event');
-		if (!$event instanceof NotificationEvent) {
+		if (!$event instanceof SubscriptionNotificationEvent) {
 			return;
 		}
 		
@@ -36,17 +35,7 @@ class Subscriptions {
 			return;
 		}
 		
-		if ($event instanceof InstantNotificationEvent) {
-			if (!$object instanceof \ElggComment) {
-				// only extend the enqueued notifications
-				return;
-			}
-			
-			if (self::isRegisteredNotificationEvent($object->getType(), $object->getSubtype(), $event->getAction())) {
-				// event will also be enqueued, extend subscribers then
-				return;
-			}
-		} elseif (!self::isAllowedNotificationEvent($object->getType(), $object->getSubtype(), $event->getAction())) {
+		if (!self::isAllowedNotificationEvent($object->getType(), $object->getSubtype(), $event->getAction())) {
 			return;
 		}
 		
