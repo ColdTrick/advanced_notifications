@@ -155,6 +155,12 @@ class Subscriptions {
 			return;
 		}
 		
+		$action = $event->getAction();
+		if (($action == 'invite') && ($object instanceof \ElggGroup)) {
+			// do not cleanup private(invisible) group invitation
+			return;
+		}
+		
 		$acl = get_access_collection($object->access_id);
 		if ($acl === false) {
 			// not an ACL
