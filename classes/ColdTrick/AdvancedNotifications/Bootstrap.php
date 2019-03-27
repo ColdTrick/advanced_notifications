@@ -37,6 +37,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$hooks->registerHandler('enqueue', 'notification', __NAMESPACE__ . '\Enqueue::delayPrivateContentNotification', 9001);
 		
 		$hooks->registerHandler('get', 'subscriptions', __NAMESPACE__ . '\Subscriptions::addOwnerSubscribers');
+		$hooks->registerHandler('get', 'subscriptions', __NAMESPACE__ . '\Subscriptions::checkAccessCollectionMembership', 9000);
 		
 		$hooks->registerHandler('setting', 'plugin', __NAMESPACE__ . '\PluginSettings::setPluginSetting');
 		
