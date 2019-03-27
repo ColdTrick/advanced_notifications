@@ -1,6 +1,10 @@
 Version history
 ===============
 
+3.2.2 (2019-03-27):
+
+- fixed: do not cleanup private(invisible) group invitation
+
 3.2.1 (2018-07-26):
 
 - fixed: no longer try to add owner subscribers on private content
