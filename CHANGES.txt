@@ -1,6 +1,13 @@
 Version history
 ===============
 
+4.0 (2019-03-27):
+
+- changed: increased minimal Elgg version to 3.0
+- changed: moved start.php to Bootstrap class
+- changed: rewrite for Elgg 3.0
+- fixed: no longer listen to instant notifications
+
 3.2.2 (2019-03-27):
 
 - fixed: do not cleanup private(invisible) group invitation
