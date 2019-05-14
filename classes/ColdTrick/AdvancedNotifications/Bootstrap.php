@@ -34,7 +34,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		// register plugin hooks
 		$hooks = $this->elgg()->hooks;
 		$hooks->registerHandler('enqueue', 'notification', __NAMESPACE__ . '\Enqueue::preventPrivateNotifications', 9000);
-		$hooks->registerHandler('enqueue', 'notification', __NAMESPACE__ . '\Enqueue::delayPrivateContentNotification', 9001);
+		$hooks->registerHandler('enqueue', 'notification', __NAMESPACE__ . '\Enqueue::delayPrivateContentNotification', 9900);
 		
 		$hooks->registerHandler('get', 'subscriptions', __NAMESPACE__ . '\Subscriptions::addOwnerSubscribers');
 		$hooks->registerHandler('get', 'subscriptions', __NAMESPACE__ . '\Subscriptions::checkAccessCollectionMembership', 9000);

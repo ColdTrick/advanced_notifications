@@ -38,9 +38,14 @@ class Enqueue {
 	 *
 	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
 	 *
-	 * @return void|false
+	 * @return void
 	 */
 	public static function delayPrivateContentNotification(\Elgg\Hook $hook) {
+		
+		if ($hook->getValue() === true) {
+			// not prevented
+			return;
+		}
 		
 		$object = $hook->getParam('object');
 		if (!$object instanceof \ElggObject) {
@@ -58,8 +63,6 @@ class Enqueue {
 		}
 		
 		$object->advanced_notifications_delayed_action = $action;
-		
-		return false;
 	}
 	
 	/**
