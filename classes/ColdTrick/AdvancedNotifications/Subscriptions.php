@@ -130,6 +130,13 @@ class Subscriptions {
 			return;
 		}
 		
+		// allow other plugins to skip validating acl access
+		$allow_acl_validation = (bool) elgg_trigger_plugin_hook('validate:acl_membership', 'advanced_notifications', $hook->getParams(), true);
+		if (!$allow_acl_validation) {
+			// a plugin prevented acl membership validation
+			return;
+		}
+		
 		$object = $event->getObject();
 		$ignored_access_ids = [
 			ACCESS_PRIVATE,
