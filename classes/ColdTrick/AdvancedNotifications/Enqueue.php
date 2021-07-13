@@ -5,47 +5,15 @@ namespace ColdTrick\AdvancedNotifications;
 class Enqueue {
 	
 	/**
-	 * Prevent the enqueing of a notification event for private content
-	 *
-	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
-	 *
-	 * @return void|false
-	 */
-	public static function preventPrivateNotifications(\Elgg\Hook $hook) {
-		
-		if ($hook->getValue() !== true) {
-			// already prevented
-			return;
-		}
-		
-		$object = $hook->getParam('object');
-		if (!$object instanceof \ElggEntity && !$object instanceof \ElggExtender) {
-			return;
-		}
-		
-		$access_id = (int) $object->access_id;
-		if ($access_id !== ACCESS_PRIVATE) {
-			return;
-		}
-		
-		return false;
-	}
-	
-	/**
 	 * Delay the notification on content if it's private
 	 *
 	 * Mainly the create notifications
 	 *
 	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
 	 *
-	 * @return void
+	 * @return void|bool
 	 */
 	public static function delayPrivateContentNotification(\Elgg\Hook $hook) {
-		
-		if ($hook->getValue() === true) {
-			// not prevented
-			return;
-		}
 		
 		$object = $hook->getParam('object');
 		if (!$object instanceof \ElggObject) {
@@ -63,6 +31,7 @@ class Enqueue {
 		}
 		
 		$object->advanced_notifications_delayed_action = $action;
+		return false;
 	}
 	
 	/**
@@ -72,7 +41,7 @@ class Enqueue {
 	 *
 	 * @return void
 	 */
-	public static function checkForDelayedNotification(\Elgg\Event $event) {
+	public static function checkForDelayedNotification(\Elgg\Event $event): void {
 		
 		$object = $event->getObject();
 		if (!$object instanceof \ElggObject) {
@@ -109,7 +78,7 @@ class Enqueue {
 	 *
 	 * @return bool
 	 */
-	protected static function isSupportedDelayAction($action, \ElggObject $object) {
+	protected static function isSupportedDelayAction(string $action, \ElggObject $object): bool {
 		
 		if (empty($action) || !$object instanceof \ElggObject) {
 			return false;

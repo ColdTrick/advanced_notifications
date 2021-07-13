@@ -1,9 +1,26 @@
 <?php
 
-use ColdTrick\AdvancedNotifications\Bootstrap;
-
-require_once(__DIR__ . '/lib/functions.php');
-
 return [
-	'bootstrap' => Bootstrap::class,
+	'plugin' => [
+		'version' => '4.2',
+	],
+	'events' => [
+		'update:after' => [
+			'object' => [
+				'\ColdTrick\AdvancedNotifications\Enqueue::checkForDelayedNotification' => [],
+			],
+		],
+	],
+	'hooks' => [
+		'enqueue' => [
+			'notification' => [
+				'\ColdTrick\AdvancedNotifications\Enqueue::delayPrivateContentNotification' => ['priority' => 9900],
+			],
+		],
+		'get' => [
+			'subscriptions' => [
+				'\ColdTrick\AdvancedNotifications\Subscriptions::checkAccessCollectionMembership' => ['priority' => 9900],
+			],
+		],
+	],
 ];
