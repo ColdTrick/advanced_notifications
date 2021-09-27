@@ -2,7 +2,7 @@
 
 return [
 	'plugin' => [
-		'version' => '4.2',
+		'version' => '5.0',
 	],
 	'events' => [
 		'update:after' => [
