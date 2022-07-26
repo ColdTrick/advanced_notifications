@@ -52,13 +52,17 @@ class Subscriptions {
 			return;
 		}
 		
-		$acl = get_access_collection($object->access_id);
-		if ($acl === false) {
+		$acl = elgg_get_access_collection($object->access_id);
+		if (!$acl instanceof \ElggAccessCollection) {
 			// not an ACL
 			return;
 		}
 		
-		$acl_members = get_members_of_access_collection($object->access_id, true);
+		$acl_members = $acl->getMembers([
+			'callback' => function($row) {
+				return (int) $row->guid;
+			},
+		]);
 		if (empty($acl_members)) {
 			// acl has no members, so remove everybody
 			return [];
