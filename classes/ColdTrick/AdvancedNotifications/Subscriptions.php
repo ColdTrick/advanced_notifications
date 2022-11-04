@@ -62,6 +62,7 @@ class Subscriptions {
 			'callback' => function($row) {
 				return (int) $row->guid;
 			},
+			'limit' => false,
 		]);
 		if (empty($acl_members)) {
 			// acl has no members, so remove everybody
