@@ -2,8 +2,7 @@ Advanced Notifications
 ======================
 
 ![Elgg 4.3](https://img.shields.io/badge/Elgg-4.3-green.svg)
-[![Build Status](https://scrutinizer-ci.com/g/ColdTrick/advanced_notifications/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ColdTrick/advanced_notifications/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ColdTrick/advanced_notifications/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ColdTrick/advanced_notifications/?branch=master)
+![Lint Checks](https://github.com/ColdTrick/advanced_notifications/actions/workflows/lint.yml/badge.svg?event=push)
 [![Latest Stable Version](https://poser.pugx.org/coldtrick/advanced_notifications/v/stable.svg)](https://packagist.org/packages/coldtrick/advanced_notifications)
 [![License](https://poser.pugx.org/coldtrick/advanced_notifications/license.svg)](https://packagist.org/packages/coldtrick/advanced_notifications)
 

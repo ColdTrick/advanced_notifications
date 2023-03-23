@@ -5,13 +5,6 @@ return [
 		'version' => '6.0.1',
 	],
 	'events' => [
-		'update:after' => [
-			'object' => [
-				'\ColdTrick\AdvancedNotifications\Enqueue::checkForDelayedNotification' => [],
-			],
-		],
-	],
-	'hooks' => [
 		'enqueue' => [
 			'notification' => [
 				'\ColdTrick\AdvancedNotifications\Enqueue::delayPrivateContentNotification' => ['priority' => 9900],
@@ -20,6 +13,11 @@ return [
 		'get' => [
 			'subscriptions' => [
 				'\ColdTrick\AdvancedNotifications\Subscriptions::checkAccessCollectionMembership' => ['priority' => 9900],
+			],
+		],
+		'update:after' => [
+			'object' => [
+				'\ColdTrick\AdvancedNotifications\Enqueue::checkForDelayedNotification' => [],
 			],
 		],
 	],

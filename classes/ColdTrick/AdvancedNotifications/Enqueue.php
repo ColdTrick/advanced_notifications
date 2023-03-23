@@ -2,32 +2,34 @@
 
 namespace ColdTrick\AdvancedNotifications;
 
+/**
+ * Notification queue event listener
+ */
 class Enqueue {
 	
 	/**
-	 * Delay the notification on content if it's private
+	 * Delay the notification of content if it's private
 	 *
-	 * Mainly the create notifications
+	 * Mainly the 'create' notifications
 	 *
-	 * @param \Elgg\Hook $hook 'enqueue', 'notification'
+	 * @param \Elgg\Event $event 'enqueue', 'notification'
 	 *
-	 * @return void|bool
+	 * @return null|bool
 	 */
-	public static function delayPrivateContentNotification(\Elgg\Hook $hook) {
-		
-		$object = $hook->getParam('object');
+	public static function delayPrivateContentNotification(\Elgg\Event $event): ?bool {
+		$object = $event->getParam('object');
 		if (!$object instanceof \ElggObject) {
-			return;
+			return null;
 		}
 		
 		$access_id = (int) $object->access_id;
 		if ($access_id !== ACCESS_PRIVATE) {
-			return;
+			return null;
 		}
 		
-		$action = $hook->getParam('action');
+		$action = $event->getParam('action');
 		if (!self::isSupportedDelayAction($action, $object)) {
-			return;
+			return null;
 		}
 		
 		$object->advanced_notifications_delayed_action = $action;
@@ -42,7 +44,6 @@ class Enqueue {
 	 * @return void
 	 */
 	public static function checkForDelayedNotification(\Elgg\Event $event): void {
-		
 		$object = $event->getObject();
 		if (!$object instanceof \ElggObject) {
 			return;
@@ -65,7 +66,7 @@ class Enqueue {
 		
 		// enqueue the original notification
 		$notification_service = _elgg_services()->notifications;
-		$notification_service->enqueueEvent($action, $object->getType(), $object);
+		$notification_service->enqueueEvent($action, $object);
 		
 		unset($object->advanced_notifications_delayed_action);
 	}
@@ -79,8 +80,7 @@ class Enqueue {
 	 * @return bool
 	 */
 	protected static function isSupportedDelayAction(string $action, \ElggObject $object): bool {
-		
-		if (empty($action) || !$object instanceof \ElggObject) {
+		if (empty($action)) {
 			return false;
 		}
 		
@@ -91,7 +91,7 @@ class Enqueue {
 			'action' => $action,
 			'object' => $object,
 		];
-		$supported_actions = elgg_trigger_plugin_hook('delayed_actions', 'advanced_notifications', $params, $supported_actions);
+		$supported_actions = elgg_trigger_event_results('delayed_actions', 'advanced_notifications', $params, $supported_actions);
 		if (!is_array($supported_actions)) {
 			return false;
 		}

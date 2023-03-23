@@ -4,38 +4,40 @@ namespace ColdTrick\AdvancedNotifications;
 
 use Elgg\Notifications\NotificationEvent;
 
+/**
+ * Notification subscription event listener
+ */
 class Subscriptions {
 	
 	/**
 	 * Validate that subscribers are member of an access collection.
 	 *
-	 * Not realy needed for 'normal' users but for admins this is required, as access isn't vaidated to them
+	 * Not really needed for 'normal' users but for admins this is required, as access isn't validated for them
 	 *
-	 * @param \Elgg\Hook $hook 'get', 'subscriptions'
+	 * @param \Elgg\Event $event 'get', 'subscriptions'
 	 *
-	 * @return void|array
+	 * @return null|array
 	 */
-	public static function checkAccessCollectionMembership(\Elgg\Hook $hook) {
-		
-		$result = $hook->getValue();
+	public static function checkAccessCollectionMembership(\Elgg\Event $event): ?array {
+		$result = $event->getValue();
 		if (empty($result)) {
 			// no subscribers to validate
-			return;
+			return null;
 		}
 		
-		$event = $hook->getParam('event');
-		if (!$event instanceof NotificationEvent) {
-			return;
+		$notification_event = $event->getParam('event');
+		if (!$notification_event instanceof NotificationEvent) {
+			return null;
 		}
 		
 		// allow other plugins to skip validating acl access
-		$allow_acl_validation = (bool) elgg_trigger_plugin_hook('validate:acl_membership', 'advanced_notifications', $hook->getParams(), true);
+		$allow_acl_validation = (bool) elgg_trigger_event_results('validate:acl_membership', 'advanced_notifications', $event->getParams(), true);
 		if (!$allow_acl_validation) {
 			// a plugin prevented acl membership validation
-			return;
+			return null;
 		}
 		
-		$object = $event->getObject();
+		$object = $notification_event->getObject();
 		$ignored_access_ids = [
 			ACCESS_PRIVATE,
 			ACCESS_FRIENDS,
@@ -43,19 +45,19 @@ class Subscriptions {
 			ACCESS_PUBLIC,
 		];
 		if (!$object instanceof \ElggEntity || in_array($object->access_id, $ignored_access_ids)) {
-			return;
+			return null;
 		}
 		
-		$action = $event->getAction();
+		$action = $notification_event->getAction();
 		if ($action === 'invite' && $object instanceof \ElggGroup) {
-			// do not cleanup private(invisible) group invitation
-			return;
+			// do not clean up private(invisible) group invitation
+			return null;
 		}
 		
 		$acl = elgg_get_access_collection($object->access_id);
 		if (!$acl instanceof \ElggAccessCollection) {
 			// not an ACL
-			return;
+			return null;
 		}
 		
 		$acl_members = $acl->getMembers([
@@ -71,8 +73,8 @@ class Subscriptions {
 		
 		$guids_to_remove = array_diff(array_keys($result), $acl_members);
 		if (empty($guids_to_remove)) {
-			// nothing to cleanup
-			return;
+			// nothing to clean up
+			return null;
 		}
 		
 		foreach ($guids_to_remove as $guid) {
