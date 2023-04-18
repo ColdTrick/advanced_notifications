@@ -17,5 +17,5 @@ Mainly this was developed for the 'create' notifications of content (eg. Discuss
 Developers
 ----------
 
-If you wish to extend the allowed delay notification actions register a plugin hook on
+If you wish to extend the allowed delay notification actions register an event handler on
 `delayed_actions`, `advanced_notifications` and add your action to the result array.
