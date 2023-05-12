@@ -65,8 +65,7 @@ class Enqueue {
 		}
 		
 		// enqueue the original notification
-		$notification_service = _elgg_services()->notifications;
-		$notification_service->enqueueEvent($action, $object);
+		elgg_enqueue_notification_event($action, $object);
 		
 		unset($object->advanced_notifications_delayed_action);
 	}
