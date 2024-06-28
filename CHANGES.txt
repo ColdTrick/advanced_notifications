@@ -1,6 +1,10 @@
 Version history
 ===============
 
+7.0.2 (2024-06-28):
+
+- several small chores/fixes
+
 7.0.1 (2023-11-30):
 
 - several small chores/fixes
