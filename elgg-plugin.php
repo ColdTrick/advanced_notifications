@@ -5,6 +5,11 @@ return [
 		'version' => '7.0.2',
 	],
 	'events' => [
+		'delayed_actions' => [
+			'advanced_notifications' => [
+				'\ColdTrick\AdvancedNotifications\Plugins\ReportedContent::allowEnqueue' => [],
+			],
+		],
 		'enqueue' => [
 			'notification' => [
 				'\ColdTrick\AdvancedNotifications\Enqueue::delayPrivateContentNotification' => ['priority' => 9900],
