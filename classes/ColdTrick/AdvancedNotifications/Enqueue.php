@@ -22,18 +22,24 @@ class Enqueue {
 			return null;
 		}
 		
-		$access_id = (int) $object->access_id;
-		if ($access_id !== ACCESS_PRIVATE) {
-			return null;
-		}
-		
 		$action = $event->getParam('action');
 		if (!self::isSupportedDelayAction($action, $object)) {
 			return null;
 		}
 		
-		$object->advanced_notifications_delayed_action = $action;
-		return false;
+		$access_id = (int) $object->access_id;
+		if ($access_id === ACCESS_PRIVATE) {
+			// prevent enqueuing
+			$object->advanced_notifications_delayed_action = $action;
+			return false;
+		}
+		
+		if ($object->advanced_notifications_delayed_action === $action) {
+			// make sure no to enqueu this event twice
+			unset($object->advanced_notifications_delayed_action);
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -64,10 +70,10 @@ class Enqueue {
 			return;
 		}
 		
+		unset($object->advanced_notifications_delayed_action);
+		
 		// enqueue the original notification
 		elgg_enqueue_notification_event($action, $object);
-		
-		unset($object->advanced_notifications_delayed_action);
 	}
 	
 	/**
