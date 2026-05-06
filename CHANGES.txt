@@ -1,6 +1,10 @@
 Version history
 ===============
 
+7.0.4 (2026-05-06):
+
+- fixed: prevent potential duplicate delayed notifications
+
 7.0.3 (2024-11-21):
 
 - fixed: no longer delay notifications about reported content
