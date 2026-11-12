@@ -2,7 +2,7 @@
 
 return [
 	'plugin' => [
-		'version' => '7.0.5',
+		'version' => '7.0.6',
 	],
 	'events' => [
 		'delayed_actions' => [
